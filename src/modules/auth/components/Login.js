@@ -7,7 +7,9 @@ const Login = () => {
     const { inputKey, message, setInputKey, handleLogin } = useLogin();  // 훅에서 상태와 함수 가져오기
 
     return (
+        <>
         <div className={styles.loginContainer}>
+        <h2>Matter Tunnel</h2>
             <div className={styles.formContainer}>
                 <input 
                     type="text"
@@ -34,6 +36,7 @@ const Login = () => {
                 )}
             </div>
         </div>
+        </>
     );
 };
 

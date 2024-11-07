@@ -31,11 +31,17 @@ const useSignUp = () => {
     }
   };
 
+  const copyPrivateKey= () => {
+    // 누르면 privatekey 복사될 수 있도록 해주세요 !
+    return
+  };
+
   return {
     privateKey,
     message,
     error,
     handleSignUp,
+    copyPrivateKey,
   };
 };
 
