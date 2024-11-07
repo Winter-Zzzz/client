@@ -1,0 +1,61 @@
+.formContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 1rem;
+    min-width: 300px;
+    gap: 1rem;
+}
+
+.inputField {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.inputField:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.loginButton {
+    padding: 0.75rem 2rem;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.loginButton:hover {
+    background-color: #2563eb;
+}
+
+.message {
+    margin-top: 1rem;
+    text-align: center;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    width: 100%;
+}
+
+.successMessage {
+    background-color: #f0fdf4;
+    color: #166534;
+}
+
+.errorMessage {
+    background-color: #fef2f2;
+    color: #991b1b;
+}

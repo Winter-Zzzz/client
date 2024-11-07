@@ -1,0 +1,142 @@
+/* Login하고 Signup css 통합해보려다가 실패 ! */
+
+/* 공통 스타일 */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f3f4f6;
+    margin: 0;
+    padding: 0;
+}
+
+button {
+    cursor: pointer;
+    outline: none;
+}
+
+input, button {
+    font-family: inherit;
+}
+
+/* 스타일들 */
+.flexContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    min-width: 300px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.formContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.inputField {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.inputField:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.button {
+    padding: 0.75rem 2rem;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #2563eb;
+}
+
+/* 로그인 전용 스타일 */
+.loginButton {
+    width: 100%;
+}
+
+.message {
+    margin-top: 1rem;
+    text-align: center;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    width: 100%;
+}
+
+.successMessage {
+    background-color: #f0fdf4;
+    color: #166534;
+}
+
+.errorMessage {
+    background-color: #fef2f2;
+    color: #991b1b;
+}
+
+/* 회원가입 전용 스타일 */
+.title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #1e293b;
+    margin-bottom: 2rem;
+}
+
+.signupButton {
+    width: 100%;
+    max-width: 200px;
+}
+
+.keyDisplay {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: #f8fafc;
+    border-radius: 0.5rem;
+    width: 100%;
+    word-break: break-all;
+    text-align: center;
+}
+
+.privateKeyText {
+    color: #475569;
+    font-family: monospace;
+    font-size: 0.875rem;
+    background-color: #f1f5f9;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    margin-top: 0.5rem;
+}
+
+.message {
+    margin-top: 1rem;
+    text-align: center;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background-color: #f0fdf4;
+    color: #166534;
+    width: 100%;
+    line-height: 1.5;
+}
