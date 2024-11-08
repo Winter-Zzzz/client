@@ -31,9 +31,18 @@ const useSignUp = () => {
     }
   };
 
-  const copyPrivateKey= () => {
-    // 누르면 privatekey 복사될 수 있도록 해주세요 !
-    return
+  const copyPrivateKey = async () => {
+    try {
+      await navigator.clipboard.writeText(privateKey);
+      setMessage('개인 키가 클립보드에 복사되었습니다!');
+      
+      // 3초 후에 메시지를 지움
+      setTimeout(() => {
+        setMessage('');
+      }, 3000);
+    } catch (err) {
+      setError('클립보드 복사에 실패했습니다. 다시 시도해주세요.');
+    }
   };
 
   return {
