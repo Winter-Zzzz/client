@@ -1,10 +1,13 @@
 // hooks/useSignUp.js
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setPrivateKey } from '../states/authSlice';
 
 const useSignUp = () => {
-  const [privateKey, setPrivateKey] = useState('');
+  const [privateKey, setPrivateKeyState] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const dispatch = useDispatch();
 
   const handleSignUp = async () => {
     try {
@@ -21,7 +24,8 @@ const useSignUp = () => {
       localStorage.setItem('privateKey', newPrivateKey);
       
       // 상태 업데이트
-      setPrivateKey(newPrivateKey);
+      dispatch(setPrivateKey(newPrivateKey));
+      setPrivateKeyState(newPrivateKey)
       setMessage('Sign Up Completed. Your private key has been saved in local storage');
       setError(''); // 에러 메시지 초기화
       
@@ -36,7 +40,7 @@ const useSignUp = () => {
     try {
       await navigator.clipboard.writeText(privateKey);
       setMessage('개인 키가 클립보드에 복사되었습니다!');
-      
+      console.log('Privatekey Successfully Copied')
       // 3초 후에 메시지를 지움
       setTimeout(() => {
         setMessage('');

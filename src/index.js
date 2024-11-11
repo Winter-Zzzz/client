@@ -1,12 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import { Provider } from 'react-redux'
 import reportWebVitals from './reportWebVitals';
+import authStore from './modules/auth/states/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <Provider store={authStore}>
     <App />
+    </Provider>
   </React.StrictMode>
 );
 
