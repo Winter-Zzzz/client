@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     loginState: localStorage.getItem('loginState') === 'true',
-        privateKey: localStorage.getItem('privateKey') || '',
-        message: '',
+    privateKey: localStorage.getItem('privateKey') || '',
+    message: '',
 };
 
 
@@ -11,20 +11,14 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setPrivateKey: (state, action) => {
-            state.privateKey = action.payload;
-            localStorage.setItem('privateKey', state.privateKey);
-        },
         loginSuccess: (state, action) => {
+            const privateKey = action.payload;
             state.loginState = true;
-            state.privateKey = action.payload.privateKey;
+            state.privateKey = privateKey;
             state.message = 'Login Completed'
+            console.log('privateKey');
             localStorage.setItem('loginState', 'true');
-            localStorage.setItem('privateKey', state.privateKey);
-        },
-        loginFail: (state) => {
-            state.loginState = false;
-            state.message = 'Login Failed'
+            localStorage.setItem('privateKey', privateKey);
         },
         invalidFormat: (state) => {
             state.loginState = false;
@@ -33,11 +27,12 @@ export const authSlice = createSlice({
         logout: (state) => {
             state.loginState = false;
             state.message = 'Logout Completed';
-            localStorage.removeItem('loginState')
+            localStorage.removeItem('loginState');
+            localStorage.removeItem('privateKey');
         }
     }
 });
 
-export const { setPrivateKey, loginSuccess, loginFail, invalidFormat, logout } = authSlice.actions;
+export const { loginSuccess, invalidFormat, logout } = authSlice.actions;
 
 export default authSlice.reducer;
