@@ -1,7 +1,7 @@
 // hooks/useLogin.js
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginSuccess, invalidFormat, logout } from '../states/authSlice';
+import { loginSuccess, loginFail, invalidFormat, logout } from '../states/authSlice';
 
 const useLogin = () => {
     const [inputKey, setInputKey] = useState('');
@@ -29,6 +29,7 @@ const useLogin = () => {
             localStorage.setItem('privateKey', inputKey);
             console.log('Login')
             setInputKey('');
+            console.log('Login Fail')
         }
     };
     return {

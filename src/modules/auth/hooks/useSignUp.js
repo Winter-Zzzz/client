@@ -1,5 +1,7 @@
 // hooks/useSignUp.js
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setPrivateKey } from '../states/authSlice';
 
 const useSignUp = () => {
   const [message, setMessage] = useState('');
