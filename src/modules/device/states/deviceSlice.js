@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = [ // 일단 임의로 지정함
-    { id: '1', type: 'refrigerator', nickname: 'nickname1' },
-    { id: '2', type: 'tv', nickname: 'nickname2' },
-    { id: '3', type: 'speaker', nickname: 'nickname3' },
+const initialState = [
+    { deviceID: '1', deviceType: 'refrigerator', deviceName: 'deviceName1' },
+    { deviceID: '2', deviceType: 'tv', deviceName: 'deviceName2' },
+    { deviceID: '3', deviceType: 'speaker', deviceName: 'deviceName3' },
 ]
 
 const deviceSlice = createSlice({
@@ -11,10 +11,10 @@ const deviceSlice = createSlice({
     initialState,
     reducers: {
         addDevice: (state, action) => {
-            state.push(action.payload);
+            state.push(action.payload)
         },
         removeDevice: (state, action) => {
-            return state.filter(device => device.id !== action.payload);
+            return state.filter(device => device.deviceID !== action.payload);
         }
     }
 })
