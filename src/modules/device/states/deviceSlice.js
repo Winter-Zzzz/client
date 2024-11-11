@@ -10,8 +10,14 @@ const deviceSlice = createSlice({
     name: 'device',
     initialState,
     reducers: {
-
+        addDevice: (state, action) => {
+            state.push(action.payload);
+        },
+        removeDevice: (state, action) => {
+            return state.filter(device => device.id !== action.payload);
+        }
     }
 })
 
+export const { addDevice, removeDevice } = deviceSlice.actions;
 export default deviceSlice.reducer
