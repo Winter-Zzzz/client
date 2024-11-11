@@ -1,6 +1,6 @@
 // hooks/useSignUp.js
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { setPrivateKey } from '../states/authSlice';
 
 const useSignUp = () => {
@@ -34,6 +34,10 @@ const useSignUp = () => {
   };
 
   const copyPrivateKey = async () => {
+    if (!privateKey) {
+      setError('개인 키가 스토리지에 존재하지 않습니다.');
+      return;
+    }
     try {
       console.log('try copyPrivateKey')
       await navigator.clipboard.writeText(generatedKey);
