@@ -1,10 +1,12 @@
 // components/SignUp.js
 import React from 'react';
 import useSignUp from '../hooks/useSignUp';  // 훅을 가져옵니다.
+import { useSelector } from 'react-redux';
 import styles from './SignUp.module.css';
 
 const SignUp = () => {
-  const { privateKey, message, error, handleSignUp, copyPrivateKey } = useSignUp();  // 훅에서 상태와 함수 가져오기
+  const { privateKey, message, error, handleSignUp, copyPrivateKey, clicked } = useSignUp();  // 훅에서 상태와 함수 가져오기
+  console.log('privateKey in Signup', privateKey)
 
   return (
     <>   
@@ -18,7 +20,7 @@ const SignUp = () => {
         회원가입
       </button>
 
-      {privateKey && (
+      {privateKey && clicked && (
         <div className={styles.keyDisplay}>
           <p>생성된 개인 키:</p>
           <p className={styles.privateKeyText}>{privateKey}</p>
@@ -26,11 +28,11 @@ const SignUp = () => {
         </div>
       )}
       
-      {message && !error && (
+      {clicked && message && !error && (
         <p className={styles.message}>{message}</p>
       )}
 
-      {error && (
+      {clicked && error && (
         <p className={styles.errorMessage}>{error}</p>
       )}
     </div>
