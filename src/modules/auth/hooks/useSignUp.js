@@ -10,7 +10,8 @@ const useSignUp = () => {
     try {
       // 동적으로 elliptic 라이브러리 import
       const { ec } = await import('elliptic');
-      const EC = new ec('secp256k1');
+      // secp256k1 -> secp256r1
+      const EC = new ec('p256');
 
       // 키 쌍 생성
       const key = EC.genKeyPair();
