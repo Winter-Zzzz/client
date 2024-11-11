@@ -6,23 +6,23 @@ export const useAdd = () => {
     const [newDevice, setNewDevice] = useState({
         deviceID: '',
         deviceType: '',
-        deviceName: '',
+        deviceKey: '',
     })
     const dispatch = useDispatch();
     const devices = useSelector(state => state.device)
 
     const onTypeChange = e => setNewDevice(prev => ({...prev, deviceType: e.target.value }))
-    const onNameChange = e => setNewDevice(prev => ({...prev, deviceName: e.target.value }))
+    const onKeyChange = e => setNewDevice(prev => ({...prev, deviceKey: e.target.value }))
 
 
     const onAddClick = () => {
-        if (newDevice.deviceType && newDevice.deviceName) {
+        if (newDevice.deviceType && newDevice.deviceKey) {
             const newDeviceWithID = {
                                 ...newDevice,
                                 deviceID: devices.length + 1
                             }
             dispatch(addDevice(newDeviceWithID))
-            setNewDevice({deviceID: '', deviceType: '', deviceName: ''})
+            setNewDevice({deviceID: '', deviceType: '', deviceKey: ''})
         }
     }
 
@@ -30,7 +30,7 @@ export const useAdd = () => {
     return {
         newDevice,
         onTypeChange,
-        onNameChange,
+        onKeyChange,
         onAddClick,
     }}
 

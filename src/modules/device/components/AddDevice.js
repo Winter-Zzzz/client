@@ -2,7 +2,7 @@ import React from 'react'
 import { useAdd } from '../hooks/useDevice'
 
 const AddDevice = () => { // 추후 수정예정
-    const { newDevice, onTypeChange, onNameChange, onAddClick } = useAdd();
+    const { newDevice, onTypeChange, onKeyChange, onAddClick } = useAdd();
 
     return (
         <section>
@@ -17,13 +17,13 @@ const AddDevice = () => { // 추후 수정예정
                     onChange={onTypeChange}
                 />
                 <br />
-                <label htmlFor="deviceName">Device Nickname:</label>
+                <label htmlFor="deviceKey">Device Key:</label>
                 <input
                     type="text"
-                    id="deviceName"
-                    name="deviceName"
-                    value={newDevice.deviceName}
-                    onChange={onNameChange}
+                    id="deviceKey"
+                    name="deviceKey"
+                    value={newDevice.deviceKey}
+                    onChange={onKeyChange}
                 />
                 <button type="button" onClick={onAddClick}>Add Device</button>
             </form>
