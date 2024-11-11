@@ -5,12 +5,18 @@ import styles from './Login.module.css';
 
 const Login = () => {
     const { inputKey, message, setInputKey, handleLogin } = useLogin();  // 훅에서 상태와 함수 가져오기
-
+    const loggedInKey = localStorage.getItem('privateKey');
+    console.log(loggedInKey);
+    const loggedIn = localStorage.getItem('loginState');
     return (
         <>
         <div className={styles.loginContainer}>
         <h2>Matter Tunnel</h2>
-            <div className={styles.formContainer}>
+            {(loggedIn) && (<div>
+                현재 로그인 중인 개인키 <br />
+                {loggedInKey}
+            </div>)}
+            {(<div className={styles.formContainer}>
                 <input 
                     type="text"
                     placeholder="개인 키를 입력하세요"
@@ -34,7 +40,7 @@ const Login = () => {
                         {message}
                     </p>
                 )}
-            </div>
+            </div>)}
         </div>
         </>
     );

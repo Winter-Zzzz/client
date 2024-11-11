@@ -1,11 +1,14 @@
 // hooks/useLogin.js
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginSuccess, invalidFormat, logout } from '../states/authSlice';
 
 const useLogin = () => {
     const [inputKey, setInputKey] = useState('');
-    const [message, setMessage] = useState('');
+    const dispatch = useDispatch();
+    const message = useSelector((state) => state.auth.message);
 
-    // 16진수인지 확인하는 함수
+    // 포맷에 맞는지 확인하는 함수 
     const isValidHex = (key) => {
         const hexPattern = /^[0-9a-fA-F]{64}$/;
         return hexPattern.test(key);
@@ -13,23 +16,21 @@ const useLogin = () => {
 
     // 로그인 처리 로직
     const handleLogin = () => {
-        const storedPrivateKey = localStorage.getItem('privateKey');
 
         if (!isValidHex(inputKey)) {
-            setMessage('Your key is incorrectly formatted');
+            dispatch(invalidFormat());
             setInputKey('');
+            console.log('Invalid Format')
             return;
-        }
-        
-        if (inputKey === storedPrivateKey) {
-            setMessage('Login Completed');
-            setInputKey('');
+
         } else {
-            setMessage('Login Failed');
+            dispatch(loginSuccess(inputKey));
+            localStorage.setItem('loginState', 'true');
+            localStorage.setItem('privateKey', inputKey);
+            console.log('Login')
             setInputKey('');
         }
     };
-
     return {
         inputKey,
         message,
