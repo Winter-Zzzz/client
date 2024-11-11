@@ -1,7 +1,6 @@
 // components/SignUp.js
 import React from 'react';
 import useSignUp from '../hooks/useSignUp';  // 훅을 가져옵니다.
-import { useSelector } from 'react-redux';
 import styles from './SignUp.module.css';
 
 const SignUp = () => {
