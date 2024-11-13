@@ -2,9 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
-import authStore from './modules/auth/states/store';
-import deviceStore from './modules/device/states/store';
+import store from './modules/core/states/store';
+import { Provider } from 'react-redux';
+// import authStore from './modules/auth/states/store';
+// import deviceStore from './modules/device/states/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
