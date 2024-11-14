@@ -1,34 +1,50 @@
-import React from 'react'
-import { useAdd } from '../hooks/useDevice'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { addDevice } from '../states/deviceSlice'
+import { Link } from 'react-router-dom'
 
-const AddDevice = () => { // 추후 수정예정
-    const { newDevice, onTypeChange, onKeyChange, onAddClick } = useAdd();
+const AddDevicePage = () => { // 추후 수정예정
+    const dispatch = useDispatch()
+
+    const [deviceType, setDeviceType] = useState('')
+    const [publicKey, setPublicKey] = useState('')
+
+    const onTypeChange = e => setDeviceType(e.target.value)
+    const onPublicKeyChange = e => setPublicKey(e.target.value)
+
+    const onAddDeviceClick = () => {
+        if (deviceType && publicKey) {
+            dispatch(addDevice({deviceType, publicKey}))
+            setDeviceType('')
+            setPublicKey('')
+        }
+    }
 
     return (
         <section>
-            <h2> ADD </h2>
+            <h2> 추가할 기기 정보를 입력하세요  </h2>
             <form>
                 <label htmlFor="deviceType">Device Type:</label>
                 <input
                     type="text"
                     id="deviceType"
                     name="deviceType"
-                    value={newDevice.deviceType}
+                    value={deviceType}
                     onChange={onTypeChange}
                 />
                 <br />
-                <label htmlFor="deviceKey">Device Key:</label>
+                <label htmlFor="publicKey">Public Key:</label>
                 <input
                     type="text"
-                    id="deviceKey"
-                    name="deviceKey"
-                    value={newDevice.deviceKey}
-                    onChange={onKeyChange}
+                    id="publicKey"
+                    name="publicKey"
+                    value={publicKey}
+                    onChange={onPublicKeyChange}
                 />
-                <button type="button" onClick={onAddClick}>Add Device</button>
+                <Link to="/device"><button type="button" onClick={onAddDeviceClick}>Add Device</button></Link>
             </form>
         </section>
     )
 }
 
-export default AddDevice;
+export default AddDevicePage;

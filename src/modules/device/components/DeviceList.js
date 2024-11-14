@@ -1,26 +1,29 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useRemove } from '../hooks/useDevice'
+import { Link } from 'react-router-dom'
+import useRemoveDevice from '../hooks/useRemoveDevice'
 
 const DeviceList = ( ) => {
     const devices = useSelector(state=>state.device)
-    const { onRemoveClick } = useRemove();
-     console.log(devices)
+    console.log(devices)
+
+    const { removeDeviceHandler } = useRemoveDevice();
 
     const renderedDevices = devices.map((device) => (
-        <article key={device.deviceID}>
-            <h4>{device.deviceKey}</h4>
-            {/* <p>{device.deviceID}</p> */}
+        <article key={device.publicKey}>
+            <h4>{device.publicKey}</h4>
             <p>{device.deviceType}</p>
-            <button onClick={() => onRemoveClick(device.deviceID)}>Delete</button>
+            <Link to={`/updateDevice/${device.publicKey}`}><button>Update</button></Link>
+            <button onClick={() => removeDeviceHandler(device.publicKey)}>삭제</button>
         </article>
     ))
 
     return (
         <>
-        {console.log('rendered')}
+            <Link to="/addDevice"><button>기기 추가하기</button></Link>
             <div>{renderedDevices}</div>
-            </>
-            )}
+        </>
+    )
+}
 
 export default DeviceList
