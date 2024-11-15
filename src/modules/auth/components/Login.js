@@ -2,6 +2,7 @@
 import React from 'react';
 import useLogin from '../hooks/useLogin';  // 훅을 가져옵니다.
 import styles from './auth.module.css';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
     const { inputKey, message, setInputKey, handleLogin } = useLogin();  // 훅에서 상태와 함수 가져오기
@@ -13,11 +14,13 @@ const Login = () => {
         <div className={styles.container}>
         <h2>Matter Tunnel</h2>
             <div className={styles.loginContainer}>
-                <span className={styles.keyLabel}>현재 로그인 중인 개인키</span>
                 {(loggedIn) && (
-                    <div className={styles.loggedInInfo}>
-                        {loggedInKey}
-                    </div>
+                    <>
+                        <span className={styles.keyLabel}>현재 로그인 중인 개인키</span>
+                        <div className={styles.loggedInInfo}>
+                            {loggedInKey}
+                        </div>
+                    </>
                 )}
                 {(<div className={styles.formContainer}>
                     <input 
@@ -43,6 +46,13 @@ const Login = () => {
                             {message}
                         </p>
                     )}
+                    <div className={styles.signupPromptBox}>
+                    <h4>아직 회원이 아니신가요?</h4>
+                    <p>지금 회원가입하시면 다양하고 특별한 혜택이 준비되어 있습니다.</p>
+                    <Link to="/signup" className={styles.signupButton}>
+                        회원가입
+                    </Link>
+                    </div>
                 </div>)}
             </div>
         </div>
