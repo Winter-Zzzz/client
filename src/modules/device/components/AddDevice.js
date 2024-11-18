@@ -81,7 +81,7 @@ const AddDevicePage = () => { // 추후 수정예정
                     id="publicKey"
                     name="publicKey"
                     value={publicKey}
-                    placeHolder="디바이스 코드를 입력해주세요."
+                    placeholder="디바이스 코드를 입력해주세요."
                     onChange={onPublicKeyChange}
                 />
             </div>
