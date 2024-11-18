@@ -15,9 +15,11 @@ const DeviceList = ( ) => {
 
     const renderedDevices = devices.map((device) => (
         <article key={device.publicKey}>
-            <h4>{device.publicKey}</h4>
-            <p>{device.deviceType}</p>
-            <Link to={`/updateDevice/${device.publicKey}`}><button>Update</button></Link>
+            {/*publicKey 받아오면 자동으로 type 뜨게 바꾸기 !*/}
+            <p>{device.publicKey}</p>
+            {/* 변경 대신 기기 관리 창으로 넘어가게 바꿀예정 */}
+            <button>기기관리창으로 넘어가게 할 예정 !</button>
+            {/* <Link to={`/updateDevice/${device.publicKey}`}><button>...</button></Link> */}
         </article>
     ))
 
@@ -26,10 +28,10 @@ const DeviceList = ( ) => {
             <Link to="/addDevice"><button>기기 추가하기</button></Link>
             <button
                 onClick={toggleRemoveMode}>{removeMode ? '삭제 취소' : '기기 삭제하기'}</button>
-            {removeMode ? (
-                <RemoveDevice 
-                    devices={devices}
-                    onCancel={() => setRemoveMode(false)} />
+            {devices.length === 0 ? (
+                <p>디바이스를 추가하고 Matter Tunnel의 다양한 서비스를 경험해보세요.</p>
+            ) : removeMode ? (
+                <RemoveDevice devices={devices} onCancel={() => setRemoveMode(false)} />
             ) : (
                 <div>{renderedDevices}</div>
             )}
