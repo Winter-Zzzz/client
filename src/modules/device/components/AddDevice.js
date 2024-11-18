@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { addDevice } from '../states/deviceSlice'
-import { Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 const AddDevicePage = () => { // 추후 수정예정
     const dispatch = useDispatch()
+    const navigate = useNavigate(0)
 
     const [deviceType, setDeviceType] = useState('')
     const [publicKey, setPublicKey] = useState('')
@@ -17,6 +18,8 @@ const AddDevicePage = () => { // 추후 수정예정
             dispatch(addDevice({deviceType, publicKey}))
             setDeviceType('')
             setPublicKey('')
+            alert('디바이스가 등록되었습니다 ')
+            navigate('./device')
         }
     }
 
@@ -24,6 +27,7 @@ const AddDevicePage = () => { // 추후 수정예정
         <section>
             <h2> 추가할 기기 정보를 입력하세요  </h2>
             <form>
+                {/* 이 부분 나중에는 없앨거임 ! */}
                 <label htmlFor="deviceType">Device Type:</label>
                 <input
                     type="text"

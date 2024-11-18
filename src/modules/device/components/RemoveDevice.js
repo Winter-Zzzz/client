@@ -21,6 +21,7 @@ const RemoveDevice = ({ onCancel }) => {
         });
         setSelected([]); // 선택 초기화
         onCancel(); // 삭제 모드 종료
+        alert('디바이스가 삭제되었습니다')
     };
 
     return (
