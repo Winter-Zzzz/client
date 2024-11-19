@@ -1,23 +1,34 @@
 // components/Login.js
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useLogin from '../hooks/useLogin';  // 훅을 가져옵니다.
 import styles from './auth.module.css';
 
 const Login = () => {
+    const navigate = useNavigate();
     const { inputKey, message, setInputKey, handleLogin } = useLogin();  // 훅에서 상태와 함수 가져오기
     const loggedInKey = localStorage.getItem('privateKey');
     console.log(loggedInKey);
     const loggedIn = localStorage.getItem('loginState');
+
+    useEffect(() => {
+        if (loggedIn) {
+            navigate('/device');
+        }
+    }, [navigate, loggedIn]);
+    
     return (
         <>
-        <div className={styles.container}>
         <h2>Matter Tunnel</h2>
+        <div className={styles.container}>
             <div className={styles.loginContainer}>
-                <span className={styles.keyLabel}>현재 로그인 중인 개인키</span>
-                {(loggedIn) && (
-                    <div className={styles.loggedInInfo}>
-                        {loggedInKey}
-                    </div>
+                {loggedIn && (
+                    <>
+                        <span className={styles.keyLabel}>현재 로그인 중인 개인키</span>
+                        <div className={styles.loggedInInfo}>
+                            {loggedInKey}
+                        </div>
+                    </>
                 )}
                 {(<div className={styles.formContainer}>
                     <input 
