@@ -6,7 +6,6 @@ import AddDevice from './modules/device/components/AddDevice'
 import UpdateDevice from './modules/device/components/UpdateDevice'
 import DeviceList from './modules/device/components/DeviceList'
 
-
 function App() {
   return (
     <>

@@ -2,8 +2,10 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginSuccess, invalidFormat, logout } from '../states/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 const useLogin = () => {
+    const navigate = useNavigate();
     const [inputKey, setInputKey] = useState('');
     const dispatch = useDispatch();
     const message = useSelector((state) => state.auth.message);
@@ -29,6 +31,7 @@ const useLogin = () => {
             localStorage.setItem('privateKey', inputKey);
             console.log('Login')
             setInputKey('');
+            navigate('/device');
         }
     };
     return {
