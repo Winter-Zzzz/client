@@ -41,7 +41,7 @@ class MatterTunnel {
           result += "number";
           break;
         case 0x03:
-          result += "Boolean";
+          result += "boolean";
           break;
         default:
           break;
@@ -63,7 +63,7 @@ class MatterTunnel {
         returnType = "number";
         break;
       case 0x03:
-        returnType = "Boolean";
+        returnType = "boolean";
         break;
       default:
         break;
