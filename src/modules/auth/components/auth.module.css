@@ -1,176 +1,177 @@
 /* auth.module.css */
+.pageContainer {
+   width: 400px;
+   margin: 0 auto;
+   padding: 0 24px;
+   background: white;
+   box-sizing: border-box;
+}
+
+h2 {
+   width: 352px;
+   margin: 0 0 32px 0;
+   font-size: 24px;
+   font-weight: 900;
+   color: #242426;
+   height: 80px;
+   display: flex;
+   align-items: center;
+   box-sizing: border-box;
+}
+
 .container {
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 0;
- }
- 
- .loginContainer,
- .signupContainer {
-    width: 100%;
-    margin: 0 auto;
-    background-color: #ffffff;
-    padding: 2rem;
- }
- 
- h2 {
-    font-size: 24px;
-    font-weight: 800;
-    color: #242426;
-    margin-bottom: 2rem;
-    padding: 0 2rem;
- }
- 
- .keyLabel {
-    display: block;
-    color: #242426;
-    font-size: 14px;
-    margin-bottom: 8px;
- }
- 
- .formContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    width: 100%;
-    padding: 0;
- }
- 
- .inputField {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #e5e5e5;
-    border-radius: 4px;
-    font-size: 14px;
-    box-sizing: border-box;
- }
- 
- .inputField::placeholder {
-    color: #aeaeb2;
- }
- 
- .loginButton {
-    width: 100%;
-    padding: 12px;
-    background-color: #242426;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 14px;
-    cursor: pointer;
-    margin: 1rem 0 0 0;
-    box-sizing: border-box;
- }
- 
- .message,
- .errorMessage,
- .successMessage {
-    width: 100%;
-    padding: 12px;
-    border-radius: 4px;
-    font-size: 14px;
-    text-align: center;
-    margin-top: 1rem;
-    box-sizing: border-box;
- }
- 
- .errorMessage {
-    background-color: #fff1f1;
-    color: #dc2626;
-    text-align: center;
- }
- 
- .loggedInInfo {
-    width: 100%;
-    word-break: break-all;
-    word-wrap: break-word;
-    background-color: #f7f7f7;
-    padding: 1rem;
-    border-radius: 4px;
-    font-size: 14px;
-    color: #aeaeb2;
-    margin-bottom: 1rem;
-    box-sizing: border-box;
- }
- 
- /* 회원가입 관련 스타일 */
- .signupPromptBox {
-    width: 100%;
-    margin-top: 2rem;
-    padding: 1.5rem;
-    border: 1px solid #e5e5e5;
-    border-radius: 4px;
-    text-align: center;
-    box-sizing: border-box;
- }
- 
- .signupPromptBox h4 {
-    font-size: 14px;
-    color: #242426;
-    margin-bottom: 0.5rem;
- }
- 
- .signupPromptBox p {
-    color: #aeaeb2;
-    font-size: 12px;
-    margin-bottom: 1rem;
- }
- 
- .signupButton {
-    width: auto;
-    padding: 8px 16px;
-    background-color: transparent;
-    border: 1px solid #e5e5e5;
-    border-radius: 4px;
-    font-size: 14px;
-    color: #242426;
-    cursor: pointer;
-    box-sizing: border-box;
- }
- 
- /* 개인키 표시 관련 스타일 */
- .keyDisplay {
-    width: 100%;
-    margin-top: 1.5rem;
-    text-align: center;
-    box-sizing: border-box;
- }
- 
- .keyDisplay p:first-child {
-    color: #aeaeb2;
-    margin-bottom: 0.5rem;
- }
- 
- .privateKeyText {
-    width: 100%;
-    font-family: monospace;
-    font-size: 14px;
-    background-color: white;
-    padding: 12px;
-    border-radius: 4px;
-    border: 1px solid #e5e5e5;
-    word-break: break-all;
-    word-wrap: break-word;
-    color: #aeaeb2;
-    margin: 0.5rem 0;
-    box-sizing: border-box;
- }
- 
- .keyDisplay button {
-    padding: 8px 16px;
-    background-color: white;
-    border: 1px solid #e5e5e5;
-    border-radius: 4px;
-    font-size: 14px;
-    cursor: pointer;
- }
- 
- .loginButton:hover {
-    background-color: #1a1a1c;
- }
- 
- .signupButton:hover,
- .keyDisplay button:hover {
-    background-color: #f5f5f5;
- }
+   width: 400px;
+   margin: 0 auto;
+}
+
+.loginContainer, .signupContainer {
+   width: 100%;
+   margin: 0;
+}
+
+.keyLabel {
+   display: block;
+   color: #242426;
+   font-size: 14px;
+   margin-bottom: 8px;
+}
+
+.formContainer {
+   width: 352px;
+}
+
+.inputField {
+   width: 352px;
+   box-sizing: border-box;
+   height: 56px;
+   padding: 0 16px;
+   border: 1px solid #e5e5e5;
+   border-radius: 4px;
+   font-size: 14px;
+   margin-bottom: 16px;
+   background: #FFFFFF;
+}
+
+.inputField::placeholder {
+   color: #9CA3AF;
+}
+
+.loginButton {
+   width: 352px;
+   box-sizing: border-box;
+   height: 56px;
+   background: #242426;
+   color: white;
+   border: none;
+   border-radius: 4px;
+   font-size: 14px;
+   margin-bottom: 32px;
+   cursor: pointer;
+}
+
+.loginButton:hover {
+   background: #1a1a1c;
+}
+
+.message, .errorMessage, .successMessage {
+   width: 300px;
+   box-sizing: border-box;
+   text-align: center;
+   padding: 16px;
+   background: #FEF2F2;
+   color: #EF4444;
+   border-radius: 4px;
+   margin-bottom: 32px;
+}
+
+.errorMessage {
+   width: 100%;
+   box-sizing: border-box;
+   background: #fff1f1;
+   color: #dc2626;
+}
+
+.loggedInInfo {
+   width: 100%;
+   word-break: break-all;
+   background: #f7f7f7;
+   padding: 16px;
+   border-radius: 4px;
+   font-size: 14px;
+   color: #9CA3AF;
+   margin-bottom: 16px;
+}
+
+.signupContainer {
+   width: 352px;
+   margin: 0 auto;
+   padding: 32px 24px;
+   border: 1px solid #e5e5e5;
+   border-radius: 4px;
+   background: #FFFFFF;
+   box-sizing: border-box;
+   text-align: center;
+}
+
+.signupContainer h4 {
+   
+   font-size: 14px;
+   margin-bottom: 8px;
+   font-weight: normal;
+   text-align: center;
+}
+
+.signupContainer p {
+   color: #9CA3AF;
+   font-size: 12px; 
+   margin: 0;
+   text-align: center;
+}
+
+.signupButton {
+   padding: 8px 16px;
+   margin: 16px 0;
+   background: transparent;
+   border: 1px solid #e5e5e5;
+   border-radius: 4px;
+   font-size: 14px;
+   color: #242426;
+   cursor: pointer;
+}
+
+.signupButton:hover {
+   background: #f5f5f5;
+}
+
+.keyText {
+   color: #9CA3AF;
+   margin: 24px 0 8px 0;
+   text-align: center;
+   font-size: 12px;
+}
+
+.privateKeyText {
+   padding: 16px;
+   background: #FAFAFA;
+   border: 1px solid #E5E5E5;
+   border-radius: 4px;
+   font-size: 11px;
+   color: #9CA3AF;
+   word-break: break-all;
+   margin: 0 0 16px 0;
+   text-align: center;
+}
+
+.keyDisplay button {
+   padding: 8px 24px;
+   background: white;
+   border: 1px solid #E5E5E5;
+   border-radius: 4px;
+   cursor: pointer;
+   display: block;
+   margin: 16px auto;
+}
+
+.copyButton:hover {
+   background: #f5f5f5;
+}
