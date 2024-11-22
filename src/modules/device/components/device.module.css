@@ -396,3 +396,101 @@
   height: 24px;
   object-fit: contain;
 }
+
+/* device.module.css에 추가 */
+
+/* 메뉴 버튼 */
+.menuButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+}
+
+/* UpdateDevice 페이지 스타일 */
+.backButton {
+  background: none;
+  border: none;
+  color: #242426;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.deviceDetail {
+  margin: 32px 0;
+  text-align: center;
+}
+
+.deviceTitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 16px 0;
+  color: #242426;
+}
+
+.feedback {
+  background: #F5F5F5;
+  padding: 16px;
+  border-radius: 8px;
+  margin-top: 16px;
+  font-size: 14px;
+  color: #242426;
+}
+
+.functionList {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.functionItem {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.functionLabel {
+  font-size: 16px;
+  font-weight: 500;
+  color: #242426;
+}
+
+.functionInputs {
+  display: flex;
+  gap: 8px;
+}
+
+.functionInput {
+  flex: 1;
+  height: 48px;
+  padding: 0 16px;
+  border: 1px solid #E5E5E5;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #242426;
+}
+
+.executeButton {
+  width: 80px;
+  height: 48px;
+  background: #242426;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.executeButton:hover {
+  opacity: 0.9;
+}

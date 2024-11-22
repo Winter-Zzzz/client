@@ -1,5 +1,4 @@
-// DeviceList.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { removeDevice } from '../states/deviceSlice.js';
@@ -35,6 +34,12 @@ const DeviceList = () => {
         setIsDeleteMode(false);
         alert('디바이스가 삭제되었습니다.');
     };
+
+    // 상태 변화를 위한 useEffect 추가
+    useEffect(() => {
+        // 디바이스 상태가 바뀔 때마다 콘솔에 출력해 확인 (디버깅용)
+        console.log("현재 디바이스 상태: ", devices);
+    }, [devices]);
 
     return (
         <div className={styles.pageContainer}>
@@ -95,11 +100,19 @@ const DeviceList = () => {
                         >
                             <div className={styles.deviceIcon}></div>
                             <div className={styles.deviceInfo}>
+                                {/* deviceType을 그대로 표시 (기본값 제거) */}
                                 <h3 className={styles.deviceName}>{device.deviceType}</h3>
                                 <p className={styles.deviceId}>
                                     {device.publicKey.substring(0, 12)}...
                                 </p>
                             </div>
+                            {!isDeleteMode && (
+                                <Link to={`/updateDevice/${device.publicKey}`}>
+                                    <button className={styles.menuButton}>
+                                        ⋮
+                                    </button>
+                                </Link>
+                            )}
                             {isDeleteMode && (
                                 <label className={styles.checkboxWrapper}>
                                     <input
