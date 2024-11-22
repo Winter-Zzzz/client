@@ -1,35 +1,85 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { addDevice } from '../states/deviceSlice'
 import QrReader from "react-qr-scanner";
 import MatterTunnel from "../../../common/matter_tunnel";
 
+const DeviceNameModal = ({ onSubmit, onCancel }) => {
+  const [deviceName, setDeviceName] = useState("");
+
+  const handleSubmit = () => {
+    if (deviceName.trim()) {
+      onSubmit(deviceName);
+    }
+  };
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <h3>디바이스 이름 입력</h3>
+        <p>스캔된 디바이스의 이름을 입력해주세요.</p>
+        <input
+          type="text"
+          value={deviceName}
+          onChange={(e) => setDeviceName(e.target.value)}
+          placeholder="디바이스 이름을 입력하세요"
+          autoFocus
+        />
+        <div className="modal-buttons">
+          <button onClick={handleSubmit} disabled={!deviceName.trim()}>
+            확인
+          </button>
+          <button onClick={onCancel}>취소</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const AddDevicePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const qrRef = useRef(null);
 
   const [qrScanError, setQrScanError] = useState("");
-  const [showDeviceNameInput, setShowDeviceNameInput] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [deviceInfo, setDeviceInfo] = useState(null);
   const [deviceType, setDeviceType] = useState("");
   const [manualPublicKey, setManualPublicKey] = useState("");
+  const [isScanning, setIsScanning] = useState(true);
 
-  // QR 코드 스캔 처리
+  const stopCamera = () => {
+    if (qrRef.current && qrRef.current.el) {
+      const stream = qrRef.current.el.srcObject;
+      if (stream) {
+        const tracks = stream.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+    }
+  };
+
+  const startCamera = () => {
+    setIsScanning(true);
+    setDeviceInfo(null);
+  };
+
   const handleScan = async (data) => {
-    if (data) {
+    if (data && isScanning) {
       try {
-        // Latin1 문자열을 Uint8Array로 변환
         const uint8Data = new Uint8Array(data.text.length);
         for (let i = 0; i < data.text.length; i++) {
           uint8Data[i] = data.text.charCodeAt(i);
         }
 
-        // 디바이스 정보 추출
         const info = JSON.parse(MatterTunnel.extractDeviceInfo(uint8Data));
         console.log("스캔된 디바이스 정보:", info);
+        
+        stopCamera();
+        setIsScanning(false);
         setDeviceInfo(info);
-        setShowDeviceNameInput(true);
+        setShowModal(true);
+
       } catch (error) {
         console.error("QR 스캔 에러:", error);
         setQrScanError("QR 코드 처리 중 오류가 발생했습니다: " + error.message);
@@ -37,25 +87,39 @@ const AddDevicePage = () => {
     }
   };
 
-  // QR 스캔 에러 처리
   const handleError = (err) => {
     console.error("QR 스캔 에러:", err);
     setQrScanError(err.message);
   };
 
-  // 디바이스 등록 처리
-  const onAddDeviceClick = useCallback(() => {
-    if (deviceInfo && deviceType) {
+  const handleDeviceNameSubmit = (name) => {
+    if (deviceInfo) {
       dispatch(
         addDevice({
-          deviceType: deviceType,
+          deviceType: name,
           publicKey: deviceInfo.publicKey,
         })
       );
-      setDeviceType("");
       alert("디바이스가 등록되었습니다.");
       navigate("/device");
-    } else if (manualPublicKey && deviceType) {
+    }
+  };
+
+  const handleModalCancel = () => {
+    setShowModal(false);
+    startCamera();
+    setDeviceInfo(null);
+  };
+
+  const onPublicKeyChange = useCallback((e) => {
+    setManualPublicKey(e.target.value);
+    setDeviceType("");
+  }, []);
+
+  const onTypeChange = useCallback((e) => setDeviceType(e.target.value), []);
+
+  const onAddDeviceClick = useCallback(() => {
+    if (manualPublicKey && deviceType) {
       dispatch(
         addDevice({
           deviceType: deviceType,
@@ -67,34 +131,38 @@ const AddDevicePage = () => {
       alert("디바이스가 등록되었습니다.");
       navigate("/device");
     }
-  }, [deviceInfo, deviceType, manualPublicKey, dispatch, navigate]);
+  }, [deviceType, manualPublicKey, dispatch, navigate]);
 
-  // 디바이스 타입 변경 핸들러
-  const onTypeChange = useCallback((e) => setDeviceType(e.target.value), []);
-
-  // 수동 입력 공개키 변경 핸들러
-  const onPublicKeyChange = useCallback((e) => setManualPublicKey(e.target.value), []);
-
-  // QR 스캐너 메모이제이션
-  const memoizedQrReader = useMemo(
-    () => (
-      <QrReader
-        delay={300}
-        style={{
-          width: "100%",
-          maxWidth: "400px",
-          margin: "0 auto",
-        }}
-        onError={handleError}
-        onScan={handleScan}
-      />
-    ),
-    []
-  );
+  const QRComponent = useMemo(() => (
+    <div>
+      {isScanning ? (
+        <QrReader
+          ref={qrRef}
+          delay={300}
+          onError={handleError}
+          onScan={handleScan}
+        />
+      ) : (
+        <div>
+          <p>QR 코드 인식 완료!</p>
+          {!showModal && (
+            <input
+              type="text"
+              value={deviceType}
+              onChange={onTypeChange}
+              placeholder="디바이스 이름을 입력하세요"
+            />
+          )}
+          <button onClick={startCamera}>다시 스캔</button>
+        </div>
+      )}
+      {qrScanError && <p>{qrScanError}</p>}
+    </div>
+  ), [isScanning, qrScanError, deviceType, onTypeChange, showModal]);
 
   return (
     <section>
-      <div className="flex justify-between items-center mb-4">
+      <div>
         <h2>디바이스 추가</h2>
         <button onClick={() => navigate(-1)}>✕</button>
       </div>
@@ -105,20 +173,7 @@ const AddDevicePage = () => {
       </p>
 
       <form>
-        <div>
-          {memoizedQrReader}
-          {qrScanError && <p style={{ color: "red" }}>{qrScanError}</p>}
-          {showDeviceNameInput && (
-            <input
-              type="text"
-              id="deviceType"
-              name="deviceType"
-              value={deviceType}
-              onChange={onTypeChange}
-              placeholder="디바이스 타입을 입력하세요"
-            />
-          )}
-        </div>
+        {QRComponent}
 
         <div>
           <h4>디바이스 코드 입력</h4>
@@ -135,21 +190,30 @@ const AddDevicePage = () => {
               type="text"
               value={deviceType}
               onChange={onTypeChange}
-              placeholder="디바이스 타입을 입력하세요"
+              placeholder="디바이스 이름을 입력하세요"
             />
           )}
         </div>
 
-        <Link to="/device">
-          <button
-            type="button"
-            onClick={onAddDeviceClick}
-            disabled={!deviceType || (!deviceInfo && !manualPublicKey)}
-          >
-            등록
-          </button>
-        </Link>
+        {manualPublicKey && deviceType && (
+          <Link to="/device">
+            <button
+              type="button"
+              onClick={onAddDeviceClick}
+              disabled={!deviceType || !manualPublicKey}
+            >
+              등록
+            </button>
+          </Link>
+        )}
       </form>
+
+      {showModal && (
+        <DeviceNameModal
+          onSubmit={handleDeviceNameSubmit}
+          onCancel={handleModalCancel}
+        />
+      )}
     </section>
   );
 };
