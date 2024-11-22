@@ -1,3 +1,366 @@
+/* device.module.css */
+.pageContainer {
+  width: 400px;
+  margin: 0 auto;
+  padding: 24px;
+  background: white;
+  box-sizing: border-box;
+}
+
+.header {
+  margin-bottom: 32px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #242426;
+  margin: 0;
+}
+
+/* 디바이스 헤더 스타일 */
+.deviceHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.deviceTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #242426;
+  margin: 0;
+}
+
+.headerActions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+/* + - 버튼 스타일 */
+.iconButton {
+  width: 36px;
+  height: 36px;
+  background: #242426;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.iconButton:hover {
+  opacity: 0.9;
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.iconButton::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: transparent;
+  transition: background-color 0.2s;
+}
+
+.iconButton.active::after {
+  background: #7C3AED;
+}
+
+/* 취소/삭제 버튼 */
+.actionButton {
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  background: white;
+  border: 1px solid #E5E5E5;
+  border-radius: 4px;
+  color: #242426;
+  /* 글자가 세로로 되는 것을 방지하기 위한 속성들 추가 */
+  writing-mode: horizontal-tb;  /* 가로 쓰기 모드 */
+  text-orientation: mixed;      /* 텍스트 방향 기본값 */
+  white-space: nowrap;         /* 줄바꿈 방지 */
+}
+
+.actionButton.deleteAction {
+  background: #242426;
+  color: white;
+  border: none;
+}
+
+.actionButton:first-child {
+  margin-right: 8px;
+}
+
+.actionButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 디바이스 그리드 */
+.deviceGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+/* 디바이스 카드 */
+.deviceCard {
+  background: #242426;
+  border-radius: 12px;
+  padding: 20px;
+  position: relative;
+  color: white;
+}
+
+.deviceIcon {
+  width: 48px;
+  height: 48px;
+  background: #FFFFFF;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.deviceInfo {
+  margin-right: 32px;
+}
+
+.deviceName {
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+  margin: 0 0 4px 0;
+}
+
+.deviceId {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+/* 체크박스 스타일 */
+.checkboxWrapper {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkbox {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 20px;
+  width: 20px;
+  background-color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.checkbox:checked ~ .checkmark {
+  background-color: #242426;
+  border: 2px solid white;
+}
+
+.checkbox:checked ~ .checkmark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 4px;
+  height: 9px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* QR 스캐너 관련 스타일 */
+.qrContainer {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #242426;
+  border-radius: 12px;
+  margin-bottom: 32px;
+  overflow: hidden;
+  position: relative;
+}
+
+.qrScanner {
+  width: 100%;
+  height: 100%;
+}
+
+.qrSuccess {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: white;
+  text-align: center;
+}
+
+/* 입력 필드 스타일 */
+.inputSection {
+  margin-bottom: 24px;
+}
+
+.inputTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #242426;
+  margin: 0 0 8px 0;
+}
+
+.input {
+  width: 100%;
+  height: 56px;
+  padding: 0 16px;
+  border: 1px solid #E5E5E5;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #242426;
+  background: white;
+  box-sizing: border-box;
+}
+
+.input::placeholder {
+  color: #9CA3AF;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #242426;
+}
+
+/* 디바이스 추가 페이지 설명 */
+.description {
+  font-size: 14px;
+  color: #242426;
+  line-height: 1.5;
+  margin-bottom: 32px;
+}
+
+/* 등록 버튼 */
+.button {
+  width: 100%;
+  height: 56px;
+  background: #242426;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 빈 상태 메시지 */
+.emptyState {
+  text-align: center;
+  padding: 48px 0;
+  color: #9CA3AF;
+  font-size: 14px;
+}
+
+/* 에러 메시지 */
+.errorText {
+  color: #DC2626;
+  font-size: 14px;
+  margin: 8px 0;
+  text-align: center;
+}
+
+/* 닫기 버튼 */
+.closeButton {
+  background: none;
+  border: none;
+  color: #242426;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+/* 디바이스 카드가 삭제 모드일 때의 스타일 */
+.deviceCard.deleteMode {
+  position: relative;
+}
+
+/* 체크박스 컨테이너가 삭제 모드일 때만 보이도록 */
+.deviceCard:not(.deleteMode) .checkboxWrapper {
+  display: none;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 480px) {
+  .pageContainer {
+    width: 100%;
+    padding: 16px;
+  }
+
+  .deviceGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 기타 유틸리티 */
+.hidden {
+  display: none;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.rescanButton {
+  background: none;
+  border: 1px solid white;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  margin-top: 16px;
+  cursor: pointer;
+}
+
+.resultMessage {
+  text-align: center;
+  padding: 16px;
+  background: #F5F5F5;
+  border-radius: 8px;
+  color: #242426;
+  font-size: 14px;
+  margin-top: 24px;
+}
+
 .navContainer {
   position: fixed;
   bottom: 0;
