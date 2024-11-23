@@ -29,6 +29,7 @@ const BottomNav = () => {
         </button>
         <button 
           className={styles.navItem}
+          onClick={() => navigate('/account')}
         >
           <img 
             src="/assets/icons/account.png" 
