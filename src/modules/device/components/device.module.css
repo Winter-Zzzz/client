@@ -2,20 +2,21 @@
 .pageContainer {
   width: 400px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 0 24px;
   background: white;
   box-sizing: border-box;
 }
 
-.header {
-  margin-bottom: 32px;
-}
-
 .title {
+  width: 352px;
+  margin: 0 0 32px 0;
   font-size: 24px;
-  font-weight: 700;
+  font-weight: 900;
   color: #242426;
-  margin: 0;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
 }
 
 /* 디바이스 헤더 스타일 */
