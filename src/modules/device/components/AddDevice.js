@@ -1,5 +1,5 @@
 // AddDevice.js
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { addDevice } from '../states/deviceSlice.js';

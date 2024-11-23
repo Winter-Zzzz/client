@@ -1,7 +1,7 @@
 // hooks/useLogin.js
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginSuccess, invalidFormat, logout } from '../states/authSlice';
+import { loginSuccess, invalidFormat } from '../states/authSlice';
 import { useNavigate } from 'react-router-dom';
 
 const useLogin = () => {
