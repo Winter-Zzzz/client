@@ -93,6 +93,7 @@ h2 {
 
 .loggedInInfo {
    width: 100%;
+   max-width: 352px; 
    word-break: break-all;
    background: #f7f7f7;
    padding: 16px;
@@ -100,6 +101,7 @@ h2 {
    font-size: 14px;
    color: #9CA3AF;
    margin-bottom: 16px;
+   box-sizing: border-box;
 }
 
 .signupContainer {
@@ -114,7 +116,7 @@ h2 {
 }
 
 .signupContainer h4 {
-   
+
    font-size: 14px;
    margin-bottom: 8px;
    font-weight: normal;
@@ -153,13 +155,17 @@ h2 {
 .privateKeyText {
    padding: 16px;
    background: #FAFAFA;
+   max-width: 352px; 
    border: 1px solid #E5E5E5;
+   margin: 0 auto 8px;
+   box-sizing: border-box;
    border-radius: 4px;
    font-size: 11px;
    color: #9CA3AF;
    word-break: break-all;
    margin: 0 0 16px 0;
    text-align: center;
+   overflow-wrap: break-word;
 }
 
 .keyDisplay button {
