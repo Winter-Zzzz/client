@@ -7,6 +7,7 @@ import UpdateDevice from './modules/device/components/UpdateDevice'
 import DeviceList from './modules/device/components/DeviceList'
 import User from './modules/auth/components/user';
 import BottomNav from './modules/device/components/BottomNav';
+import ProtectedRoute from './modules/auth/components/ProtectedRoute';
 
 // BottomNav를 조건부로 표시할 레이아웃 컴포넌트
 const Layout = ({ children }) => {
@@ -27,10 +28,26 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<><Login /><SignUp /></>} />
-          <Route path="/device" element={<DeviceList />}/>
-          <Route path="/addDevice" element={<AddDevice />} />
-          <Route path="/updateDevice/:publicKey" element={<UpdateDevice />} />
-          <Route path="/account" element={<User />} />
+          <Route path="/device" element={
+            <ProtectedRoute>
+              <DeviceList />
+            </ProtectedRoute>
+          }/>
+          <Route path="/addDevice" element={
+            <ProtectedRoute>
+              <AddDevice />
+            </ProtectedRoute>
+          } />
+          <Route path="/updateDevice/:publicKey" element={
+            <ProtectedRoute>
+              <UpdateDevice />
+            </ProtectedRoute>
+          } />
+          <Route path="/account" element={
+            <ProtectedRoute>
+              <User />
+            </ProtectedRoute>
+          } />
         </Routes>
       </Layout>
     </Router>
