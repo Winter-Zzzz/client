@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
-import { removeDevice } from '../states/deviceSlice.js';
+import { removeDevice } from '../states/deviceSlice.js';
 import styles from './device.module.css';
 
 const DeviceList = () => {
