@@ -181,3 +181,14 @@ h2 {
 .copyButton:hover {
    background: #f5f5f5;
 }
+
+.logoutButton {   
+   border: 1px solid #242426;
+   background-color: white;
+   color: #242426;
+}
+
+.logoutButton:hover {
+   background-color: #242426;
+   color: white;
+}
