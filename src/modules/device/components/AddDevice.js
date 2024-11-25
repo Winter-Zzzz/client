@@ -1,8 +1,7 @@
-// AddDevice.js
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { addDevice } from '../states/deviceSlice.js';
+import { addDevice } from '../states/deviceSlice.js';
 import QrReader from "react-qr-scanner";
 import MatterTunnel from "../../../common/matter_tunnel";
 import styles from './device.module.css';
@@ -14,11 +13,11 @@ const AddDevice = () => {
 
     const [qrScanError, setQrScanError] = useState("");
     const [deviceInfo, setDeviceInfo] = useState(null);
-    const [manualPublicKey, setManualPublicKey] = useState("");
     const [deviceName, setDeviceName] = useState("");
     const [isScanning, setIsScanning] = useState(true);
 
-    const handleScan = async (data) => {
+    // QR 코드 스캔 핸들러 (메모이제이션됨)
+    const handleScan = useCallback(async (data) => {
         if (data && isScanning) {
             try {
                 const uint8Data = new Uint8Array(data.text.length);
@@ -35,23 +34,26 @@ const AddDevice = () => {
                 setQrScanError("QR 코드 처리 중 오류가 발생했습니다.");
             }
         }
-    };
+    }, [isScanning]);
 
-    const handleError = (err) => {
+    // QR 코드 에러 핸들러 (메모이제이션됨)
+    const handleError = useCallback((err) => {
         console.error("QR 스캔 에러:", err);
         setQrScanError(err.message);
-    };
+    }, []);
 
-    const handleSubmit = () => {
-        if ((deviceInfo || manualPublicKey) && deviceName) {
+    // 폼 제출 핸들러 (메모이제이션됨)
+    const handleSubmit = useCallback(() => {
+        if (deviceInfo && deviceName) {
             dispatch(addDevice({
                 deviceType: deviceName,
-                publicKey: deviceInfo ? deviceInfo.publicKey : manualPublicKey,
+                publicKey: deviceInfo.publicKey,
+                functions: deviceInfo.functions
             }));
             alert("디바이스가 등록되었습니다.");
             navigate(-1);
         }
-    };
+    }, [deviceInfo, deviceName, dispatch, navigate]);
 
     return (
         <div className={styles.pageContainer}>
@@ -70,20 +72,18 @@ const AddDevice = () => {
             </div>
 
             <p className={styles.description}>
-                QR 코드를 스캔하거나,<br/>
-                디바이스 코드를 입력해 주세요.
+                QR 코드를 스캔해주세요.
             </p>
 
             <div className={styles.qrContainer}>
-                {isScanning ? (
-                    <QrReader
-                        ref={qrRef}
-                        delay={300}
-                        onError={handleError}
-                        onScan={handleScan}
-                        className={styles.qrScanner}
-                    />
-                ) : (
+                <QrReader
+                    ref={qrRef}
+                    delay={300}
+                    onError={handleError}
+                    onScan={handleScan}
+                    className={`${styles.qrScanner} ${!isScanning ? styles.hidden : ''}`}
+                />
+                {!isScanning && (
                     <div className={styles.qrSuccess}>
                         <p>QR 코드 스캔 완료!</p>
                         <button 
@@ -97,18 +97,7 @@ const AddDevice = () => {
                 {qrScanError && <p className={styles.errorText}>{qrScanError}</p>}
             </div>
 
-            <div className={styles.inputSection}>
-                <h3 className={styles.inputTitle}>디바이스 코드 입력</h3>
-                <input
-                    type="text"
-                    className={styles.input}
-                    value={manualPublicKey}
-                    onChange={(e) => setManualPublicKey(e.target.value)}
-                    placeholder="디바이스 코드를 입력해주세요."
-                />
-            </div>
-
-            {(deviceInfo || manualPublicKey) && (
+            {deviceInfo && (
                 <div className={styles.nameInputSection}>
                     <input
                         type="text"
@@ -123,7 +112,7 @@ const AddDevice = () => {
             <button 
                 className={styles.button}
                 onClick={handleSubmit}
-                disabled={!((deviceInfo || manualPublicKey) && deviceName)}
+                disabled={!(deviceInfo && deviceName)}
             >
                 등록
             </button>

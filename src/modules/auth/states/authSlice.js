@@ -25,10 +25,6 @@ export const authSlice = createSlice({
         logout: (state) => {
             state.loginState = false;
             state.message = 'Logout Completed';
-            // 나중에 useLogout으로 옮기기
-            // 여기다거 두면 오류 나는듯?
-            // localStorage.removeItem('loginState');
-            // localStorage.removeItem('privateKey');
         }
     }
 });

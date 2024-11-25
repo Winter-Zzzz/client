@@ -1,10 +1,14 @@
 /* device.module.css */
 .pageContainer {
   width: 400px;
+  height: calc(100vh - 56px);
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 24px 160px;
   background: white;
   box-sizing: border-box;
+  overflow-y: scroll;
+  position: relative;
+  padding-bottom: 200px;
 }
 
 .title {
@@ -45,10 +49,10 @@
 .iconButton {
   width: 36px;
   height: 36px;
-  background: #242426;
   border: none;
   border-radius: 4px;
-  color: white;
+  background-color: white;
+  color: #242426;
   font-size: 24px;
   cursor: pointer;
   display: flex;
@@ -115,11 +119,13 @@
 .deviceGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: 20px;
 }
 
 /* 디바이스 카드 */
 .deviceCard {
+  width: 120px;
+  height: 100px;
   background: #242426;
   border-radius: 12px;
   padding: 20px;
@@ -141,13 +147,14 @@
 
 .deviceName {
   font-size: 16px;
+  white-space: nowrap;
   font-weight: 500;
   color: white;
   margin: 0 0 4px 0;
 }
 
 .deviceId {
-  font-size: 14px;
+  font-size: 12px;
   color: rgba(255, 255, 255, 0.7);
   margin: 0;
 }
@@ -248,6 +255,7 @@
   color: #242426;
   background: white;
   box-sizing: border-box;
+  margin-bottom: 20px;
 }
 
 .input::placeholder {
@@ -278,6 +286,7 @@
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.2s;
+  margin-bottom: 24px;
 }
 
 .button:disabled {
@@ -365,21 +374,22 @@
 .navContainer {
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 8px 0;
-  background-color: transparent;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  height: 56px;
+  background-color: white;
+  border-top: 1px solid #aeaeb2;
   z-index: 1000;
 }
 
 .navInner {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
-  padding: 0 48px;
-  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  padding: 0;
 }
 
 .navItem {
@@ -388,8 +398,9 @@
   justify-content: center;
   background: none;
   border: none;
-  padding: 8px;
   cursor: pointer;
+  flex: 1;
+  height: 100%;
 }
 
 .navIcon {
@@ -397,8 +408,6 @@
   height: 24px;
   object-fit: contain;
 }
-
-/* device.module.css에 추가 */
 
 /* 메뉴 버튼 */
 .menuButton {
@@ -414,84 +423,176 @@
   line-height: 1;
 }
 
-/* UpdateDevice 페이지 스타일 */
+/* UpdateDevice 제어 화면 전용 스타일 */
+.pageContainer {
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+  background: white;
+  box-sizing: border-box;
+  min-height: calc(100vh - 56px);
+  overflow-x: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  height: 56px;
+}
+
 .backButton {
   background: none;
   border: none;
+  font-size: 14px;
   color: #242426;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 0;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
+  cursor: pointer;
 }
 
 .deviceDetail {
-  margin: 32px 0;
-  text-align: center;
+  margin-top: 24px;
+  padding: 24px;
+  border-radius: 8px;
+  background: #F7F7F7;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.deviceInfoContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.deviceIcon {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
 }
 
 .deviceTitle {
-  font-size: 18px;
-  font-weight: 600;
-  margin: 16px 0;
+  font-size: 16px;
+  margin: 0;
   color: #242426;
+  font-weight: 500;
 }
 
 .feedback {
-  background: #F5F5F5;
-  padding: 16px;
-  border-radius: 8px;
-  margin-top: 16px;
-  font-size: 14px;
-  color: #242426;
-}
-
-.functionList {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.functionItem {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.functionLabel {
+.feedbackLabel {
   font-size: 16px;
   font-weight: 500;
   color: #242426;
 }
 
+.feedbackContent {
+  font-size: 14px;
+  color: #6B7280;
+}
+
+.functionList {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding-bottom: 80px;
+}
+
+.functionItem {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.functionLabel {
+  font-size: 16px;
+  color: #242426;
+  font-weight: 500;
+}
+
 .functionInputs {
   display: flex;
   gap: 8px;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.functionInputs input {
+  min-width: 0;
 }
 
 .functionInput {
   flex: 1;
-  height: 48px;
-  padding: 0 16px;
+  height: 40px;
+  padding: 0 12px;
   border: 1px solid #E5E5E5;
-  border-radius: 8px;
+  border-radius: 4px;
   font-size: 14px;
   color: #242426;
+  box-sizing: border-box;
+}
+
+/* 두 개의 입력값이 있는 경우 */
+.functionInputs:has(input:nth-child(2)) {
+  flex-wrap: wrap;
+}
+
+.functionInputs:has(input:nth-child(2)) .functionInput {
+  width: calc(50% - 4px);
+  flex: none;
+}
+
+.functionInputs:has(input:nth-child(2)) .executeButton {
+  width: 100%;
+  margin-top: 8px;
 }
 
 .executeButton {
-  width: 80px;
-  height: 48px;
+  padding: 0 20px;
+  height: 40px;
   background: #242426;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 4px;
   font-size: 14px;
   cursor: pointer;
+  min-width: 80px;
+  white-space: nowrap;
 }
 
-.executeButton:hover {
-  opacity: 0.9;
+.executeButton.loading {
+  background: #6B7280;
+  cursor: not-allowed;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 480px) {
+  .pageContainer {
+    width: 100%;
+    padding: 16px 16px 160px;
+  }
+
+  .navContainer {
+    width: 100%;
+    transform: none;
+    left: 0;
+  }
+
+  .navInner {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+}
+
+a {
+  text-decoration: none;
 }

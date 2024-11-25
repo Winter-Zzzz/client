@@ -5,7 +5,7 @@ import SignUp from './modules/auth/components/SignUp';
 import AddDevice from './modules/device/components/AddDevice'
 import UpdateDevice from './modules/device/components/UpdateDevice'
 import DeviceList from './modules/device/components/DeviceList'
-import User from './modules/auth/components/User';
+import User from './modules/auth/components/user';
 import BottomNav from './modules/device/components/BottomNav';
 
 // BottomNav를 조건부로 표시할 레이아웃 컴포넌트

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { removeDevice } from '../states/deviceSlice.js';
+import { removeDevice } from '../states/deviceSlice.js';
 import styles from './device.module.css';
 
 const RemoveDevice = () => {
