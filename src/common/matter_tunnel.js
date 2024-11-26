@@ -446,6 +446,58 @@ class MatterTunnel {
       throw new Error("Failed to extract TX data: " + error.message);
     }
   }
+
+  static extractTXDataWithoutSign(privateKey, txHex) {
+    try {
+      // Convert hex string to byte array
+      const txData = this.#hexToBytes(txHex);
+
+      if (txData.length < 59) {
+        // Minimum size: funcName(18) + compressed pubkey(33) + timestamp(8)
+        throw new Error("Invalid TX data size");
+      }
+
+      // 1. Parse Function name (18 bytes)
+      let funcName = "";
+      for (let i = 0; i < 18; i++) {
+        if (txData[i] !== 0) {
+          funcName += String.fromCharCode(txData[i]);
+        }
+      }
+
+      // 2. Handle compressed public key (33 bytes)
+      const compressedKey = txData.slice(18, 51);
+      const keyPair = ec.keyFromPublic(Array.from(compressedKey), "hex");
+      const srcPub = keyPair.getPublic(false, "hex");
+
+      // 3. Parse timestamp (8 bytes)
+      let timestamp = BigInt(0);
+      for (let i = 0; i < 8; i++) {
+        timestamp |= BigInt(txData[51 + i]) << BigInt(i * 8);
+      }
+
+      // 4. Handle encrypted data
+      const encryptedData = txData.slice(59);
+      const encryptedHex = this.#bytesToHex(encryptedData);
+
+      // 5. Generate shared key and decrypt
+      const sharedKey = this.getSharedKey(privateKey, srcPub);
+      const decryptedData = this.decrypt(sharedKey, encryptedHex);
+
+      // 6. Deserialize the decrypted data
+      const dataList = this.#deserializeDataList(decryptedData);
+
+      // 7. Return JSON format result
+      return JSON.stringify({
+        funcName: funcName,
+        srcPub: srcPub,
+        timeStamp: timestamp.toString(),
+        data: dataList,
+      });
+    } catch (error) {
+      throw new Error("Failed to extract TX data: " + error.message);
+    }
+  }
 }
 
 export default MatterTunnel;
