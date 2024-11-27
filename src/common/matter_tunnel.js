@@ -11,6 +11,12 @@ class MatterTunnel {
       .join("");
   }
 
+  static bytesToHexUtil(data) {
+    return Array.from(data)
+      .map((byte) => byte.toString(16).padStart(2, "0"))
+      .join("");
+  }
+
   // Converts hex string to byte array
   static #hexToBytes(hex) {
     const bytes = [];

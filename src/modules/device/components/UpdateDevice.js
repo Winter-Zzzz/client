@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import styles from './device.module.css';
+import MatterTunnel from '../../../common/matter_tunnel';
+import axios from 'axios';
 
 const UpdateDevice = () => {
     const navigate = useNavigate();
@@ -9,6 +11,7 @@ const UpdateDevice = () => {
     const device = useSelector(state => 
         state.device.find(d => d.publicKey === publicKey)
     );
+    const privateKey = useSelector((state) => state.auth.privateKey);
 
     const [feedback, setFeedback] = useState('');
     const [inputValues, setInputValues] = useState({});
@@ -25,6 +28,38 @@ const UpdateDevice = () => {
         };
     };
 
+    const simulateDeviceFeedback = async () => {
+        try {
+            const pk = MatterTunnel.derivePublicKey(privateKey);
+            const response = await axios.get(
+                `http://localhost:8080/getCurrentTransaction/${pk}`, 
+                {
+                    headers: {
+                        'Accept': 'text/plain'
+                    }
+                }
+            );
+            
+            const feedback = MatterTunnel.extractTXDataWithoutSign(privateKey, response.data)
+            const feedbackJson = JSON.parse(feedback)
+            console.log(feedbackJson["data"][0])
+            setFeedback(feedbackJson["data"][0])
+            return feedbackJson["data"][0];
+            
+        } catch (error) {
+            setFeedback("현재 트랜잭션이 없습니다.");
+            throw error;
+        }
+    };
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            simulateDeviceFeedback();
+        }, 2000);
+
+        return () => clearInterval(interval);
+    }, []);
+
     const deviceFunctions = (device?.functions || []).map(func => {
         const parsed = parseFunctions(func);
         return parsed ? {
@@ -40,43 +75,17 @@ const UpdateDevice = () => {
             [key]: value
         }));
     };
-
-    const simulateDeviceFeedback = (funcName, processedValues) => {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                switch(funcName.toLowerCase()) {
-                    case 'gettemp':
-                        resolve(`${device?.deviceType || '디바이스'}의 현재 온도는 ${Math.floor(Math.random() * 30 + 10)}°C 입니다.`);
-                        break;
-                    case 'changecolor':
-                        resolve(`${device?.deviceType || '디바이스'}의 색상을 ${processedValues[0]}로 변경했습니다.`);
-                        break;
-                    case 'setbrightness':
-                        resolve(`${device?.deviceType || '디바이스'}의 밝기를 ${processedValues[0]}%로 설정했습니다.`);
-                        break;
-                    case 'setled':
-                        const status = processedValues[1] ? '켜짐' : '꺼짐';
-                        resolve(`${device?.deviceType || '디바이스'}의 LED ${processedValues[0]}번을 ${status}으로 설정했습니다.`);
-                        break;
-                    case 'getstatus':
-                        resolve(`${device?.deviceType || '디바이스'}의 상태: 정상`);
-                        break;
-                    default:
-                        resolve(`${device?.deviceType || '디바이스'}의 ${funcName} 함수가 실행되었습니다.`);
-                }
-            }, 2000);
-        });
-    };
-
+    
     const handleExecute = async (funcName, paramTypes, paramValues) => {
         // 입력값 존재 여부 먼저 확인
         const values = paramValues.map(value => value || '');
         
         // 모든 필수 매개변수에 값이 입력되었는지 확인
         if (paramTypes.length > 0 && values.some(value => !value)) {
-            setFeedback('모든 매개변수 값을 입력해주세요.');
+            alert('모든 매개변수 값을 입력해주세요.');
             return;
         }
+
 
         // 입력값 유효성 검사
         let isValidInput = true;
@@ -106,9 +115,31 @@ const UpdateDevice = () => {
         });
 
         if (!isValidInput) {
-            setFeedback('올바른 형식의 값을 입력해주세요.');
+            alert('올바른 형식의 값을 입력해주세요.');
             return;
         }
+
+        console.log(funcName, paramTypes, paramValues);
+
+        const TxBytes = MatterTunnel.makeTX(funcName, privateKey, publicKey, paramValues)
+        const TX = MatterTunnel.bytesToHexUtil(TxBytes)
+
+        await axios.post(
+            "http://localhost:8080/queuing", 
+            {
+                "publicKey": `${publicKey}`,
+                "tx": `${TX}`
+            }, 
+            {
+                headers: {
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            }).then(res => {
+                console.log(res.data);
+            }).catch(err => {
+                alert("어허 !")
+            })
 
         alert('트랜잭션이 전송되었습니다!');
         
@@ -117,13 +148,8 @@ const UpdateDevice = () => {
             ...prev,
             [funcName]: true
         }));
-        
-        setFeedback('트랜잭션을 처리중입니다...');
 
-        try {
-            const deviceResponse = await simulateDeviceFeedback(funcName, processedValues);
-            setFeedback(deviceResponse);
-            
+        try {            
             // 입력값 초기화
             if (paramTypes.length > 0) {
                 values.forEach((_, index) => {
@@ -131,7 +157,7 @@ const UpdateDevice = () => {
                 });
             }
         } catch (error) {
-            setFeedback('함수 실행 중 오류가 발생했습니다.');
+            alert('함수 실행 중 오류가 발생했습니다.');
         } finally {
             // 해당 함수의 로딩 상태만 false로 변경
             setLoadingStates(prev => ({
