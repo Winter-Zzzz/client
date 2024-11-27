@@ -2,14 +2,17 @@ import React, { useState, useRef, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { addDevice } from '../states/deviceSlice.js';
+import { useSelector } from 'react-redux';
 import QrReader from "react-qr-scanner";
 import MatterTunnel from "../../../common/matter_tunnel";
 import styles from './device.module.css';
+import axios from 'axios';
 
 const AddDevice = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const qrRef = useRef(null);
+    const privateKey = useSelector((state) => state.auth.privateKey);
 
     const [qrScanError, setQrScanError] = useState("");
     const [deviceInfo, setDeviceInfo] = useState(null);
@@ -25,10 +28,55 @@ const AddDevice = () => {
                     uint8Data[i] = data.text.charCodeAt(i);
                 }
                 const info = JSON.parse(MatterTunnel.extractDeviceInfo(uint8Data));
+
                 console.log("스캔된 디바이스 정보:", info);
-                
+                                
                 setDeviceInfo(info);
                 setIsScanning(false);
+
+                const sign = MatterTunnel.sign(info.publicKey, privateKey)
+
+                console.log("publicKey: ", MatterTunnel.derivePublicKey(privateKey))
+                
+                await axios.post(
+                    "http://localhost:8080/register", 
+                    {
+                        "publicKey1": `${MatterTunnel.derivePublicKey(privateKey)}`, // 누나 퍼블릭키
+                        "publicKey2": `${info.publicKey}`, // 디바이스 퍼블릭키
+                        "sign": `${sign}` // 방금 만든 sign
+                    }, 
+                    {
+                        headers: {
+                            'Content-type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    }).then(res => {
+                        console.log(res.data);
+                    }).catch(err => {
+                        alert("이미 등록된 디바이스 !")
+                    })
+
+                    const TXBytes = MatterTunnel.makeTX("setup", privateKey, info.publicKey, [info.passcode])
+                    const TX =  MatterTunnel.bytesToHexUtil(TXBytes)
+
+                    console.log("TX: ", TX)
+
+                    await axios.post(
+                        "http://localhost:8080/queuing", 
+                        {
+                            "publicKey": `${info.publicKey}`,
+                            "tx": `${TX}`
+                        }, 
+                        {
+                            headers: {
+                                'Content-type': 'application/json',
+                                'Accept': 'application/json'
+                            }
+                        }).then(res => {
+                            console.log("queueing",res.data);
+                        }).catch(err => {
+                            alert("큐잉 에러 !")
+                        })
             } catch (error) {
                 console.error("QR 스캔 에러:", error);
                 setQrScanError("QR 코드 처리 중 오류가 발생했습니다.");
