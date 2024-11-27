@@ -354,8 +354,12 @@ class MatterTunnel {
       // 6. 현재 타임스탬프 생성
       const timestamp = BigInt(Math.floor(Date.now() / 1000));
       const timestampBytes = new Uint8Array(8);
-      for (let i = 0; i < 8; i++) {
+      for (let i = 0; i < 4; i++) {
         timestampBytes[i] = Number((timestamp >> BigInt(i * 8)) & BigInt(0xff));
+      }
+      // Zero out remaining bytes
+      for (let i = 4; i < 8; i++) {
+        timestampBytes[i] = 0;
       }
 
       // 7. TX 데이터 조합
