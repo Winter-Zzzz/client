@@ -1,18 +1,19 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import Intro from './modules/auth/components/Intro';
 import Login from './modules/auth/components/Login';
 import SignUp from './modules/auth/components/SignUp';
-import AddDevice from './modules/device/components/AddDevice'
-import UpdateDevice from './modules/device/components/UpdateDevice'
-import DeviceList from './modules/device/components/DeviceList'
+import AddDevice from './modules/device/components/AddDevice';
+import UpdateDevice from './modules/device/components/UpdateDevice';
+import DeviceList from './modules/device/components/DeviceList';
 import User from './modules/auth/components/user';
 import BottomNav from './modules/device/components/BottomNav';
 import ProtectedRoute from './modules/auth/components/ProtectedRoute';
 
-// BottomNav를 조건부로 표시할 레이아웃 컴포넌트
 const Layout = ({ children }) => {
   const location = useLocation();
-  const showNav = location.pathname !== '/';  // 루트 경로가 아닐 때만 Nav 표시
+  // intro 화면과 auth 페이지에서는 Nav를 숨김
+  const showNav = !['/auth', '/'].includes(location.pathname);
 
   return (
     <>
@@ -27,7 +28,11 @@ function App() {
     <Router>
       <Layout>
         <Routes>
-          <Route path="/" element={<><Login /><SignUp /></>} />
+          {/* Public Routes */}
+          <Route path="/" element={<Intro />} />
+          <Route path="/auth" element={<><Login /><SignUp /></>} />
+          
+          {/* Protected Routes */}
           <Route path="/device" element={
             <ProtectedRoute>
               <DeviceList />

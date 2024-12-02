@@ -185,7 +185,7 @@ const UpdateDevice = () => {
     <div className={styles.pageContainer}>
       <div className={styles.header}>
         <button className={styles.backButton} onClick={() => navigate(-1)}>
-          ← 전구
+          ← 메인화면으로
         </button>
       </div>
 
